@@ -34,6 +34,12 @@ public class MovieDetailFragment extends Fragment {
     TextView summary;
     @BindView(R.id.poster)
     ImageView poster;
+    @BindView(R.id.vote_count)
+    TextView voteCount;
+    @BindView(R.id.language)
+    TextView language;
+    @BindView(R.id.relase_date_detail)
+    TextView relaseDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,8 +64,12 @@ public class MovieDetailFragment extends Fragment {
         originalTitle.setText(mMovie.getOriginalTitle());
         score.setText(String.valueOf(mMovie.getAverageRating()));
         Picasso.with(getActivity().getApplicationContext())
-                .load("https://image.tmdb.org/t/p/w342" + mMovie.getPosterPath()).into(poster);
+                .load("https://image.tmdb.org/t/p/w500" + mMovie.getPosterPath()).into(poster);
         summary.setText(mMovie.getOverview());
+        voteCount.setText(String.valueOf(mMovie.getVoteCount()));
+        language.setText(mMovie.getOriginalLanguage());
+        relaseDate.setText(mMovie.getRelaseDate());
+
         Log.d("MovieDetailFragment", mMovie.getTitle());
     }
 

@@ -2,41 +2,71 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:layout_margin="1dp"
-    android:background="@android:color/darker_gray">
+    android:background="@color/detail_summary_background"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.75"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/title"
+        <ImageView
+            android:id="@+id/movie_poster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="TITLE"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_gravity="center"
+            android:src="@drawable/poster" />
 
-        <TextView
-            android:id="@+id/relase_date"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="date" />
+            android:layout_gravity=""
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="TITLE"
+                android:textColor="@color/detail_summary_text"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/relase_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="date"
+                android:textColor="@color/detail_summary_text" />
+        </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/rating_score"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.25"
-        android:gravity="center"
-        android:padding="2dp"
-        android:text="rating" />
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:src="@drawable/star"
+            android:tint="@color/rate_image" />
+
+        <TextView
+            android:id="@+id/rating_score"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="rating"
+            android:textColor="@color/detail_summary_text" />
+    </LinearLayout>
 
 </LinearLayout>

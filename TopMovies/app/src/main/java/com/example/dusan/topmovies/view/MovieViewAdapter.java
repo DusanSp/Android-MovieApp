@@ -9,22 +9,21 @@ import android.view.ViewGroup;
 
 import com.example.dusan.topmovies.model.Movie;
 import com.example.dusan.topmovies.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewHolder>{
+public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
     private List<Movie> mMovieList;
     private MovieListFragment mMovieListFragment;
 
-    public MovieViewAdapter(List<Movie> movies)
-    {
+    public MovieViewAdapter(List<Movie> movies) {
         this.mMovieList = movies;
 
     }
 
-    public void setFragment(MovieListFragment fragment)
-    {
+    public void setFragment(MovieListFragment fragment) {
         this.mMovieListFragment = fragment;
     }
 
@@ -43,6 +42,8 @@ public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewHolder>{
         holder.mTitle.setText(movie.getTitle());
         holder.mRelaseDate.setText(movie.getRelaseDate());
         holder.mRatingScore.setText(String.valueOf(movie.getAverageRating()));
+        Picasso.with(mMovieListFragment.getActivity())
+                .load("https://image.tmdb.org/t/p/w92" + movie.getPosterPath()).into(holder.mPoster);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

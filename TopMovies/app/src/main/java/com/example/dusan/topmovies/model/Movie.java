@@ -17,6 +17,10 @@ public class Movie {
     private String posterPath;
     @SerializedName("overview")
     private String overview;
+    @SerializedName("vote_count")
+    private double voteCount;
+    @SerializedName("original_language")
+    private String originalLanguage;
 
 
     public String getRelaseDate() {
@@ -65,5 +69,21 @@ public class Movie {
 
     public void setOverview(String overview) {
         this.overview = overview;
+    }
+
+    public double getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(double voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public String getOriginalLanguage() {
+        return originalLanguage;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
     }
 }
