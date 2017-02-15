@@ -1,17 +1,16 @@
 package com.example.dusan.topmovies.view;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import com.example.dusan.topmovies.R;
 import com.example.dusan.topmovies.presenter.Presenter;
 
 import java.util.List;
 
-public class TopRatedMovieActivity extends FragmentActivity {
-
+public class UpcomingMoviesActivity extends Activity {
 
     private MovieListFragment mMovieListFragment;
     public Presenter presenter;
@@ -19,10 +18,10 @@ public class TopRatedMovieActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_topratedmovies);
+        setContentView(R.layout.activity_upcomingmovies);
 
         presenter = new Presenter();
-        presenter.initTopRatedMovieActivity(this);
+        presenter.initUpcomingMovieActivity(this);
 
         mMovieListFragment = new MovieListFragment();
 
@@ -30,7 +29,7 @@ public class TopRatedMovieActivity extends FragmentActivity {
                 getFragmentManager();
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_holder, mMovieListFragment);
+        fragmentTransaction.add(R.id.fragment_holder_upcoming, mMovieListFragment);
         fragmentTransaction.commit();
 
         mMovieListFragment.initPresenter(presenter);
@@ -42,10 +41,10 @@ public class TopRatedMovieActivity extends FragmentActivity {
         super.onStart();
 
         // TODO: check if movie data have been fetched from server
-        presenter.getTopRatedMoviesData();
+        presenter.getUpcomingMoviesData();
     }
 
-    public void showTopRatedMoviesData(List movieList)
+    public void showUpcomingMoviesData(List movieList)
     {
         mMovieListFragment.updateView(movieList);
     }

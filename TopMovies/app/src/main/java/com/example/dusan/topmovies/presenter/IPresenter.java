@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface IPresenter {
 
-    void notifay(List<Movie> movies);
+    void notifayTopRatedMovies(List<Movie> movies);
+    void notifayUpcomingMovies(List<Movie> movies);
     void onItemListClicked(int positon);
-    void getMoviesData();
+    void getTopRatedMoviesData();
     Movie getMovieDetails(int index);
 }

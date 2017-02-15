@@ -9,4 +9,6 @@ public interface APICommunication {
 
     @GET("movie/top_rated")
     Call<MoviesResponse> getTopRatedMovies(@Query("api_key") String apiKey);
+    @GET("movie/upcoming")
+    Call<MoviesResponse> getUpComingMovies(@Query("api_key") String apiKey);
 }

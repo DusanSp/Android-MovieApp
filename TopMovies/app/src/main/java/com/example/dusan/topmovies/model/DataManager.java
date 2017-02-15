@@ -29,7 +29,7 @@ public class DataManager {
         return movies.get(index);
     }
 
-    public void fetchMovieData() {
+    public void fetchTopRatedMoviesData() {
         mMovieAPI = new MovieAPI();
 
         Call<MoviesResponse> call = mMovieAPI.getService().getTopRatedMovies(API_KEY);
@@ -45,7 +45,45 @@ public class DataManager {
 
                     if(movies != null && movies.size() > 0)
                     {
-                        mPresenter.notifay(movies);
+                        mPresenter.notifayTopRatedMovies(movies);
+                    }
+                    else{
+                        Log.d("Error", "Cant get movie from response.");
+                    }
+                }
+                else
+                {
+                    Log.d("Error", response.message());
+                    movies = null;
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                Log.d("onFailure", t.toString());
+                movies = null;
+            }
+        });
+    }
+
+    public void fetchUpcomingMoviesData() {
+        mMovieAPI = new MovieAPI();
+
+        Call<MoviesResponse> call = mMovieAPI.getService().getUpComingMovies(API_KEY);
+        call.enqueue(new Callback<MoviesResponse>() {
+            @Override
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                if(response.code() == 200)
+                {
+                    movies = response.body().getResults();
+                    for (Movie m : movies) {
+                        Log.d("TEST", m.getTitle());
+                    }
+
+                    if(movies != null && movies.size() > 0)
+                    {
+                        mPresenter.notifayUpcomingMovies(movies);
                     }
                     else{
                         Log.d("Error", "Cant get movie from response.");

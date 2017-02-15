@@ -4,6 +4,7 @@ package com.example.dusan.topmovies.presenter;
 import com.example.dusan.topmovies.model.DataManager;
 import com.example.dusan.topmovies.model.Movie;
 import com.example.dusan.topmovies.view.TopRatedMovieActivity;
+import com.example.dusan.topmovies.view.UpcomingMoviesActivity;
 
 import java.util.List;
 
@@ -11,15 +12,29 @@ public class Presenter implements IPresenter {
 
 
     private TopRatedMovieActivity topRatedMovieActivity;
+    private UpcomingMoviesActivity upcomingMoviesActivity;
     private DataManager mDataManager;
 
-    public Presenter(TopRatedMovieActivity activity) {
-        topRatedMovieActivity = activity;
+    public Presenter() {
+
         mDataManager = new DataManager(this);
     }
 
-    public void getMoviesData() {
-        mDataManager.fetchMovieData();
+    public void initTopRatedMovieActivity(TopRatedMovieActivity activity) {
+        topRatedMovieActivity = activity;
+    }
+
+    public void initUpcomingMovieActivity(UpcomingMoviesActivity activity) {
+        upcomingMoviesActivity = activity;
+    }
+
+    public void getTopRatedMoviesData() {
+        mDataManager.fetchTopRatedMoviesData();
+    }
+
+    public void getUpcomingMoviesData()
+    {
+        mDataManager.fetchUpcomingMoviesData();
     }
 
     @Override
@@ -28,8 +43,13 @@ public class Presenter implements IPresenter {
     }
 
     @Override
-    public void notifay(List<Movie> movies) {
-        topRatedMovieActivity.showData(movies);
+    public void notifayTopRatedMovies(List<Movie> movies) {
+        topRatedMovieActivity.showTopRatedMoviesData(movies);
+    }
+
+    @Override
+    public void notifayUpcomingMovies(List<Movie> movies) {
+        upcomingMoviesActivity.showUpcomingMoviesData(movies);
     }
 
     @Override

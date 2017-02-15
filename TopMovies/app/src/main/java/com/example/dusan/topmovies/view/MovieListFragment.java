@@ -50,8 +50,6 @@ public class MovieListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        presenter.getMoviesData();
-
     }
 
     @Override
