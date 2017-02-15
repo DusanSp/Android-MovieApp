@@ -52,7 +52,6 @@ public class TopRatedMovieActivity extends FragmentActivity {
 
     public void showDetailFragment(int position)
     {
-
         MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
         movieDetailFragment.initPresenter(presenter);
         movieDetailFragment.setMovieID(position);

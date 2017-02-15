@@ -22,10 +22,12 @@ public class Presenter implements IPresenter {
 
     public void initTopRatedMovieActivity(TopRatedMovieActivity activity) {
         topRatedMovieActivity = activity;
+        upcomingMoviesActivity = null;
     }
 
     public void initUpcomingMovieActivity(UpcomingMoviesActivity activity) {
         upcomingMoviesActivity = activity;
+        topRatedMovieActivity = null;
     }
 
     public void getTopRatedMoviesData() {
@@ -54,6 +56,14 @@ public class Presenter implements IPresenter {
 
     @Override
     public void onItemListClicked(int position) {
-        topRatedMovieActivity.showDetailFragment(position);
+        if(topRatedMovieActivity != null)
+        {
+            topRatedMovieActivity.showDetailFragment(position);
+        }
+
+        if(upcomingMoviesActivity != null)
+        {
+            upcomingMoviesActivity.showDetailFragment(position);
+        }
     }
 }

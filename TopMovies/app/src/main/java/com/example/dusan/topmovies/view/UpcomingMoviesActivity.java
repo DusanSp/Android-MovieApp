@@ -51,7 +51,6 @@ public class UpcomingMoviesActivity extends Activity {
 
     public void showDetailFragment(int position)
     {
-
         MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
         movieDetailFragment.initPresenter(presenter);
         movieDetailFragment.setMovieID(position);
@@ -59,7 +58,7 @@ public class UpcomingMoviesActivity extends Activity {
                 getFragmentManager();
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, movieDetailFragment);
+        fragmentTransaction.replace(R.id.fragment_holder_upcoming, movieDetailFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
