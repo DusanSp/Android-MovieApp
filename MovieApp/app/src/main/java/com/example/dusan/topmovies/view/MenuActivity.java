@@ -35,4 +35,12 @@ public class MenuActivity extends Activity {
                 UpcomingMoviesActivity.class);
         startActivity(upcomingMoviesIntent);
     }
+
+    @OnClick(R.id.btn_tvshowsontheair)
+    public void showTvShowsOnTheAir(View view)
+    {
+        Intent upcomingMoviesIntent = new Intent(MenuActivity.this,
+                TvShowsOnTheAirActivity.class);
+        startActivity(upcomingMoviesIntent);
+    }
 }

@@ -18,12 +18,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MovieListFragment extends Fragment {
+public class ListFragment extends Fragment {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
     private MovieViewAdapter mMovieViewAdapter;
+    private TvShowViewAdapter mTvShowViewAdapter;
     private IPresenter presenter;
 
 
@@ -63,13 +64,23 @@ public class MovieListFragment extends Fragment {
         presenter.onItemListClicked(position);
     }
 
-    public void updateView(List movieList) {
+    public void updateMovieView(List movieList) {
         if(movieList != null)
         {
             mMovieViewAdapter = new MovieViewAdapter(movieList);
             mMovieViewAdapter.setFragment(this);
         }
         mRecyclerView.swapAdapter(mMovieViewAdapter, true);
+        mRecyclerView.invalidate();
+    }
+
+    public void updateTvShowView(List tvShowList) {
+        if(tvShowList != null)
+        {
+            mTvShowViewAdapter = new TvShowViewAdapter(tvShowList);
+            mTvShowViewAdapter.setFragment(this);
+        }
+        mRecyclerView.swapAdapter(mTvShowViewAdapter, true);
         mRecyclerView.invalidate();
     }
 }

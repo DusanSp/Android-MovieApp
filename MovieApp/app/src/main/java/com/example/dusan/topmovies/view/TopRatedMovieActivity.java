@@ -13,7 +13,7 @@ import java.util.List;
 public class TopRatedMovieActivity extends FragmentActivity {
 
 
-    private MovieListFragment mMovieListFragment;
+    private ListFragment mListFragment;
     public Presenter presenter;
 
     @Override
@@ -24,16 +24,16 @@ public class TopRatedMovieActivity extends FragmentActivity {
         presenter = new Presenter();
         presenter.initTopRatedMovieActivity(this);
 
-        mMovieListFragment = new MovieListFragment();
+        mListFragment = new ListFragment();
 
         FragmentManager fragmentManager =
                 getFragmentManager();
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_holder, mMovieListFragment);
+        fragmentTransaction.add(R.id.fragment_holder, mListFragment);
         fragmentTransaction.commit();
 
-        mMovieListFragment.initPresenter(presenter);
+        mListFragment.initPresenter(presenter);
     }
 
     @Override
@@ -47,19 +47,19 @@ public class TopRatedMovieActivity extends FragmentActivity {
 
     public void showTopRatedMoviesData(List movieList)
     {
-        mMovieListFragment.updateView(movieList);
+        mListFragment.updateMovieView(movieList);
     }
 
     public void showDetailFragment(int position)
     {
-        MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
-        movieDetailFragment.initPresenter(presenter);
-        movieDetailFragment.setMovieID(position);
+        DetailFragment detailFragment = new DetailFragment();
+        detailFragment.initPresenter(presenter);
+        detailFragment.setMovieID(position);
         FragmentManager fragmentManager =
                 getFragmentManager();
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, movieDetailFragment);
+        fragmentTransaction.replace(R.id.fragment_holder, detailFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

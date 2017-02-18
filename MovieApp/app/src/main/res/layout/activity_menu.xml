@@ -18,4 +18,11 @@
         android:layout_gravity="center"
         android:text="Upcoming movies" />
 
+    <Button
+        android:id="@+id/btn_tvshowsontheair"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Tv Shows on the air" />
+
 </LinearLayout>

@@ -15,7 +15,8 @@ import retrofit2.Response;
 public class DataManager {
     private final String API_KEY = "cea376b36a54214485643698fe4bfd16";
     private MovieAPI mMovieAPI;
-    private List<Movie> movies = new ArrayList<>();
+    private List<Movie> movieList = new ArrayList<>();
+    private List<TvShow> tvShowList = new ArrayList<>();
     private IPresenter mPresenter;
 
 
@@ -26,7 +27,7 @@ public class DataManager {
 
     public Movie getMovie(int index)
     {
-        return movies.get(index);
+        return movieList.get(index);
     }
 
     public void fetchTopRatedMoviesData() {
@@ -38,14 +39,14 @@ public class DataManager {
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                 if(response.code() == 200)
                 {
-                    movies = response.body().getResults();
-                    for (Movie m : movies) {
+                    movieList = response.body().getResults();
+                    for (Movie m : movieList) {
                         Log.d("TEST", m.getTitle());
                     }
 
-                    if(movies != null && movies.size() > 0)
+                    if(movieList != null && movieList.size() > 0)
                     {
-                        mPresenter.notifayTopRatedMovies(movies);
+                        mPresenter.notifyTopRatedMovies(movieList);
                     }
                     else{
                         Log.d("Error", "Cant get movie from response.");
@@ -54,15 +55,14 @@ public class DataManager {
                 else
                 {
                     Log.d("Error", response.message());
-                    movies = null;
+                    movieList = null;
                 }
-
             }
 
             @Override
             public void onFailure(Call<MoviesResponse> call, Throwable t) {
                 Log.d("onFailure", t.toString());
-                movies = null;
+                movieList = null;
             }
         });
     }
@@ -76,14 +76,14 @@ public class DataManager {
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                 if(response.code() == 200)
                 {
-                    movies = response.body().getResults();
-                    for (Movie m : movies) {
+                    movieList = response.body().getResults();
+                    for (Movie m : movieList) {
                         Log.d("TEST", m.getTitle());
                     }
 
-                    if(movies != null && movies.size() > 0)
+                    if(movieList != null && movieList.size() > 0)
                     {
-                        mPresenter.notifayUpcomingMovies(movies);
+                        mPresenter.notifyUpcomingMovies(movieList);
                     }
                     else{
                         Log.d("Error", "Cant get movie from response.");
@@ -92,15 +92,51 @@ public class DataManager {
                 else
                 {
                     Log.d("Error", response.message());
-                    movies = null;
+                    movieList = null;
                 }
-
             }
 
             @Override
             public void onFailure(Call<MoviesResponse> call, Throwable t) {
                 Log.d("onFailure", t.toString());
-                movies = null;
+                movieList = null;
+            }
+        });
+    }
+
+    public void fetchTvShowsOnTheAirData() {
+        mMovieAPI = new MovieAPI();
+
+        Call<TvShowResponse> call = mMovieAPI.getService().getShowsOnTheAir(API_KEY);
+        call.enqueue(new Callback<TvShowResponse>() {
+            @Override
+            public void onResponse(Call<TvShowResponse> call, Response<TvShowResponse> response) {
+                if(response.code() == 200)
+                {
+                    tvShowList = response.body().getResults();
+                    for (TvShow tvShow : tvShowList) {
+                        Log.d("TEST", tvShow.getName());
+                    }
+
+                    if(tvShowList != null && tvShowList.size() > 0)
+                    {
+                        mPresenter.notifyTvShowsOnTheAir(tvShowList);
+                    }
+                    else{
+                        Log.d("Error", "Cant get movie from response.");
+                    }
+                }
+                else
+                {
+                    Log.d("Error", response.message());
+                    tvShowList = null;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TvShowResponse> call, Throwable t) {
+                Log.d("onFailure", t.toString());
+                tvShowList = null;
             }
         });
     }

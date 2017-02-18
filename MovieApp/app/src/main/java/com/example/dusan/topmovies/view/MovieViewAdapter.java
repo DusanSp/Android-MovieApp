@@ -16,22 +16,22 @@ import java.util.List;
 public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
     private List<Movie> mMovieList;
-    private MovieListFragment mMovieListFragment;
+    private ListFragment mListFragment;
 
     public MovieViewAdapter(List<Movie> movies) {
         this.mMovieList = movies;
 
     }
 
-    public void setFragment(MovieListFragment fragment) {
-        this.mMovieListFragment = fragment;
+    public void setFragment(ListFragment fragment) {
+        this.mListFragment = fragment;
     }
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_list_row, parent, false);
+                .inflate(R.layout.list_row, parent, false);
 
         return new MovieViewHolder(itemView);
     }
@@ -42,14 +42,14 @@ public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         holder.mTitle.setText(movie.getTitle());
         holder.mRelaseDate.setText(movie.getRelaseDate());
         holder.mRatingScore.setText(String.valueOf(movie.getAverageRating()));
-        Picasso.with(mMovieListFragment.getActivity())
+        Picasso.with(mListFragment.getActivity())
                 .load("https://image.tmdb.org/t/p/w92" + movie.getPosterPath()).into(holder.mPoster);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("--->", "onClick " + String.valueOf(position));
-                mMovieListFragment.onItemClick(position);
+                mListFragment.onItemClick(position);
             }
         });
     }

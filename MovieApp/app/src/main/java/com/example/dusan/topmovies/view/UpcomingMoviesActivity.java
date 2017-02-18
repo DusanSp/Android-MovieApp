@@ -12,7 +12,7 @@ import java.util.List;
 
 public class UpcomingMoviesActivity extends Activity {
 
-    private MovieListFragment mMovieListFragment;
+    private ListFragment mListFragment;
     public Presenter presenter;
 
     @Override
@@ -23,16 +23,16 @@ public class UpcomingMoviesActivity extends Activity {
         presenter = new Presenter();
         presenter.initUpcomingMovieActivity(this);
 
-        mMovieListFragment = new MovieListFragment();
+        mListFragment = new ListFragment();
 
         FragmentManager fragmentManager =
                 getFragmentManager();
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_holder_upcoming, mMovieListFragment);
+        fragmentTransaction.add(R.id.fragment_holder_upcoming, mListFragment);
         fragmentTransaction.commit();
 
-        mMovieListFragment.initPresenter(presenter);
+        mListFragment.initPresenter(presenter);
     }
 
     @Override
@@ -46,19 +46,19 @@ public class UpcomingMoviesActivity extends Activity {
 
     public void showUpcomingMoviesData(List movieList)
     {
-        mMovieListFragment.updateView(movieList);
+        mListFragment.updateMovieView(movieList);
     }
 
     public void showDetailFragment(int position)
     {
-        MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
-        movieDetailFragment.initPresenter(presenter);
-        movieDetailFragment.setMovieID(position);
+        DetailFragment detailFragment = new DetailFragment();
+        detailFragment.initPresenter(presenter);
+        detailFragment.setMovieID(position);
         FragmentManager fragmentManager =
                 getFragmentManager();
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder_upcoming, movieDetailFragment);
+        fragmentTransaction.replace(R.id.fragment_holder_upcoming, detailFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

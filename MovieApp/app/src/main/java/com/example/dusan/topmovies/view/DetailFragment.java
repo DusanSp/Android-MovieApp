@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MovieDetailFragment extends Fragment {
+public class DetailFragment extends Fragment {
 
     private IPresenter presenter;
     private int movieID;
@@ -70,7 +70,7 @@ public class MovieDetailFragment extends Fragment {
         language.setText(mMovie.getOriginalLanguage());
         relaseDate.setText(mMovie.getRelaseDate());
 
-        Log.d("MovieDetailFragment", mMovie.getTitle());
+        Log.d("DetailFragment", mMovie.getTitle());
     }
 
     @Override
