@@ -46,7 +46,7 @@ public class UpcomingMoviesActivity extends Activity {
 
     public void showUpcomingMoviesData(List movieList)
     {
-        mListFragment.updateMovieView(movieList);
+        mListFragment.showMovieList(movieList);
     }
 
     public void showDetailFragment(int position)

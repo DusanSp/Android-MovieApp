@@ -41,8 +41,13 @@ public class Presenter implements IPresenter {
         upcomingMoviesActivity = null;
     }
 
-    public void getTopRatedMoviesData() {
-        mDataManager.fetchTopRatedMoviesData();
+    public void getTopRatedMoviesData(boolean isUpdate) {
+        mDataManager.fetchTopRatedMoviesData(isUpdate);
+    }
+
+    @Override
+    public void updateTopRatedMoviesView() {
+        topRatedMovieActivity.updateTopRatedMoviesView();
     }
 
     public void getUpcomingMoviesData()

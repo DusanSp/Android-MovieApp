@@ -12,6 +12,7 @@ public interface IPresenter {
     void notifyUpcomingMovies(List<Movie> movies);
     void notifyTvShowsOnTheAir(List<TvShow> tvShows);
     void onItemListClicked(int position);
-    void getTopRatedMoviesData();
+    void getTopRatedMoviesData(boolean isUpdate);
+    void updateTopRatedMoviesView();
     Movie getMovieDetails(int index);
 }

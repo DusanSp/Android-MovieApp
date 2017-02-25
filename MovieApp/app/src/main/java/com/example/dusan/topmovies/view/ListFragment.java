@@ -7,10 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 
 import com.example.dusan.topmovies.R;
 import com.example.dusan.topmovies.presenter.IPresenter;
-import com.example.dusan.topmovies.presenter.Presenter;
 
 import java.util.List;
 
@@ -26,10 +26,14 @@ public class ListFragment extends Fragment {
     private MovieViewAdapter mMovieViewAdapter;
     private TvShowViewAdapter mTvShowViewAdapter;
     private IPresenter presenter;
+    private LinearLayoutManager mLayoutManager;
+    private boolean userScrolled = true;
+    int lastVisiblesItems;
+    int totalItemCount;
+    int visibleThreshold = 5;
 
 
-    public void initPresenter(IPresenter presenter)
-    {
+    public void initPresenter(IPresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -39,12 +43,38 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        RecyclerView.LayoutManager mLayoutManager =
-                new LinearLayoutManager(getActivity());
+        mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mMovieViewAdapter);
 
+        implementScrollListener();
+
         return view;
+    }
+
+    private void implementScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    userScrolled = true;
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                totalItemCount = mLayoutManager.getItemCount();
+                lastVisiblesItems = mLayoutManager.findLastVisibleItemPosition();
+
+                if (userScrolled && (visibleThreshold + lastVisiblesItems) >= totalItemCount) {
+                    userScrolled = false;
+                    presenter.getTopRatedMoviesData(true);
+                }
+            }
+        });
     }
 
     @Override
@@ -59,14 +89,12 @@ public class ListFragment extends Fragment {
 
     }
 
-    public void onItemClick(int position)
-    {
+    public void onItemClick(int position) {
         presenter.onItemListClicked(position);
     }
 
-    public void updateMovieView(List movieList) {
-        if(movieList != null)
-        {
+    public void showMovieList(List movieList) {
+        if (movieList != null) {
             mMovieViewAdapter = new MovieViewAdapter(movieList);
             mMovieViewAdapter.setFragment(this);
         }
@@ -74,9 +102,13 @@ public class ListFragment extends Fragment {
         mRecyclerView.invalidate();
     }
 
-    public void updateTvShowView(List tvShowList) {
-        if(tvShowList != null)
-        {
+    public void updateMovieListView() {
+        mMovieViewAdapter.notifyDataSetChanged();
+        mRecyclerView.invalidate();
+    }
+
+    public void showTvShowList(List tvShowList) {
+        if (tvShowList != null) {
             mTvShowViewAdapter = new TvShowViewAdapter(tvShowList);
             mTvShowViewAdapter.setFragment(this);
         }

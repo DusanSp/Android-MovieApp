@@ -8,7 +8,8 @@ import retrofit2.http.Query;
 public interface APICommunication {
 
     @GET("movie/top_rated")
-    Call<MoviesResponse> getTopRatedMovies(@Query("api_key") String apiKey);
+    Call<MoviesResponse> getTopRatedMovies(@Query("api_key") String apiKey,
+                                           @Query("page") int pageNumber);
     @GET("movie/upcoming")
     Call<MoviesResponse> getUpComingMovies(@Query("api_key") String apiKey);
     @GET("tv/on_the_air")

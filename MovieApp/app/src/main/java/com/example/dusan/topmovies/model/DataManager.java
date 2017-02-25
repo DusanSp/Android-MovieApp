@@ -12,12 +12,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 public class DataManager {
     private final String API_KEY = "cea376b36a54214485643698fe4bfd16";
     private MovieAPI mMovieAPI;
     private List<Movie> movieList = new ArrayList<>();
     private List<TvShow> tvShowList = new ArrayList<>();
     private IPresenter mPresenter;
+    private int pageNumber = 1;
 
 
     public DataManager(IPresenter presenter)
@@ -30,23 +32,37 @@ public class DataManager {
         return movieList.get(index);
     }
 
-    public void fetchTopRatedMoviesData() {
+    public void fetchTopRatedMoviesData(final boolean isUpdate) {
         mMovieAPI = new MovieAPI();
 
-        Call<MoviesResponse> call = mMovieAPI.getService().getTopRatedMovies(API_KEY);
+        Call<MoviesResponse> call = mMovieAPI.getService().getTopRatedMovies(API_KEY, pageNumber);
         call.enqueue(new Callback<MoviesResponse>() {
             @Override
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                 if(response.code() == 200)
                 {
-                    movieList = response.body().getResults();
-                    for (Movie m : movieList) {
+                    List<Movie> movieListFromResponse = response.body().getResults();
+                    for (Movie m : movieListFromResponse) {
                         Log.d("TEST", m.getTitle());
                     }
 
+                    movieList.addAll(movieListFromResponse);
+
                     if(movieList != null && movieList.size() > 0)
                     {
-                        mPresenter.notifyTopRatedMovies(movieList);
+                        if(!isUpdate)
+                        {
+                            mPresenter.notifyTopRatedMovies(movieList);
+                        }
+                        else
+                        {
+                            mPresenter.updateTopRatedMoviesView();
+                        }
+
+                        if(pageNumber < response.body().getTotalPages())
+                        {
+                            pageNumber++;
+                        }
                     }
                     else{
                         Log.d("Error", "Cant get movie from response.");

@@ -42,12 +42,17 @@ public class TopRatedMovieActivity extends FragmentActivity {
         super.onStart();
 
         // TODO: check if movie data have been fetched from server
-        presenter.getTopRatedMoviesData();
+        presenter.getTopRatedMoviesData(false);
     }
 
     public void showTopRatedMoviesData(List movieList)
     {
-        mListFragment.updateMovieView(movieList);
+        mListFragment.showMovieList(movieList);
+    }
+
+    public void updateTopRatedMoviesView()
+    {
+        mListFragment.updateMovieListView();
     }
 
     public void showDetailFragment(int position)

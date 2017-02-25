@@ -48,6 +48,6 @@ public class TvShowsOnTheAirActivity extends FragmentActivity {
 
     public void showTvShowOnTheAir(List tvShowList)
     {
-        mListFragment.updateTvShowView(tvShowList);
+        mListFragment.showTvShowList(tvShowList);
     }
 }
