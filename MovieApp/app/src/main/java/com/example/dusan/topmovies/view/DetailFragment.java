@@ -59,7 +59,8 @@ public class DetailFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mMovie = presenter.getMovieDetails(movieID);
+        mMovie = (Movie) presenter.getDetailData(movieID);
+
         title.setText(mMovie.getTitle());
         originalTitle.setText(mMovie.getOriginalTitle());
         score.setText(String.valueOf(mMovie.getAverageRating()));

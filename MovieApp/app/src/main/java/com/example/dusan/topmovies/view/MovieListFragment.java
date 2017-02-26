@@ -1,6 +1,8 @@
 package com.example.dusan.topmovies.view;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,24 +12,27 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import com.example.dusan.topmovies.R;
+import com.example.dusan.topmovies.model.Movie;
 import com.example.dusan.topmovies.presenter.IPresenter;
+import com.example.dusan.topmovies.view.adapters.MovieViewAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ListFragment extends Fragment {
+public class MovieListFragment extends Fragment implements IListView {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
     private MovieViewAdapter mMovieViewAdapter;
-    private TvShowViewAdapter mTvShowViewAdapter;
     private IPresenter presenter;
     private LinearLayoutManager mLayoutManager;
     private boolean userScrolled = true;
+    private List<Movie> movieList = new ArrayList<>();
     int lastVisiblesItems;
     int totalItemCount;
     int visibleThreshold = 5;
@@ -45,6 +50,9 @@ public class ListFragment extends Fragment {
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mMovieViewAdapter = new MovieViewAdapter(movieList);
+        mMovieViewAdapter.setFragment(this);
         mRecyclerView.setAdapter(mMovieViewAdapter);
 
         implementScrollListener();
@@ -71,7 +79,7 @@ public class ListFragment extends Fragment {
 
                 if (userScrolled && (visibleThreshold + lastVisiblesItems) >= totalItemCount) {
                     userScrolled = false;
-                    presenter.getTopRatedMoviesData(true);
+                    presenter.loadData();
                 }
             }
         });
@@ -81,38 +89,36 @@ public class ListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        presenter.loadData();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
+    @Override
     public void onItemClick(int position) {
-        presenter.onItemListClicked(position);
+        DetailFragment detailFragment = new DetailFragment();
+        detailFragment.initPresenter(presenter);
+        detailFragment.setMovieID(position);
+        FragmentManager fragmentManager =
+                getFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, detailFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
-    public void showMovieList(List movieList) {
-        if (movieList != null) {
-            mMovieViewAdapter = new MovieViewAdapter(movieList);
-            mMovieViewAdapter.setFragment(this);
-        }
-        mRecyclerView.swapAdapter(mMovieViewAdapter, true);
-        mRecyclerView.invalidate();
+    @Override
+    public void showData(List list) {
+        mMovieViewAdapter.dataSetChange(list);
     }
 
-    public void updateMovieListView() {
-        mMovieViewAdapter.notifyDataSetChanged();
-        mRecyclerView.invalidate();
-    }
-
-    public void showTvShowList(List tvShowList) {
-        if (tvShowList != null) {
-            mTvShowViewAdapter = new TvShowViewAdapter(tvShowList);
-            mTvShowViewAdapter.setFragment(this);
-        }
-        mRecyclerView.swapAdapter(mTvShowViewAdapter, true);
-        mRecyclerView.invalidate();
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
     }
 }

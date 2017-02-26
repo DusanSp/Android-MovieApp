@@ -20,27 +20,29 @@ public class DataManager {
     private List<TvShow> tvShowList = new ArrayList<>();
     private IPresenter mPresenter;
     private int pageNumber = 1;
+    private int pageNumberTvShow = 1;
 
 
-    public DataManager(IPresenter presenter)
-    {
+    public DataManager(IPresenter presenter) {
         this.mPresenter = presenter;
     }
 
-    public Movie getMovie(int index)
-    {
-        return movieList.get(index);
+    public Movie getMovie(int index) {
+        return this.movieList.get(index);
     }
 
-    public void fetchTopRatedMoviesData(final boolean isUpdate) {
+    public TvShow getTvShow(int index) {
+        return this.tvShowList.get(index);
+    }
+
+    public void fetchTopRatedMoviesData() {
         mMovieAPI = new MovieAPI();
 
         Call<MoviesResponse> call = mMovieAPI.getService().getTopRatedMovies(API_KEY, pageNumber);
         call.enqueue(new Callback<MoviesResponse>() {
             @Override
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                if(response.code() == 200)
-                {
+                if (response.code() == 200) {
                     List<Movie> movieListFromResponse = response.body().getResults();
                     for (Movie m : movieListFromResponse) {
                         Log.d("TEST", m.getTitle());
@@ -48,36 +50,24 @@ public class DataManager {
 
                     movieList.addAll(movieListFromResponse);
 
-                    if(movieList != null && movieList.size() > 0)
-                    {
-                        if(!isUpdate)
-                        {
-                            mPresenter.notifyTopRatedMovies(movieList);
-                        }
-                        else
-                        {
-                            mPresenter.updateTopRatedMoviesView();
-                        }
+                    if (movieList != null && movieList.size() > 0) {
+                        mPresenter.notifyDataChange(movieList);
 
-                        if(pageNumber < response.body().getTotalPages())
-                        {
+                        if (pageNumber < response.body().getTotalPages()) {
                             pageNumber++;
                         }
+                    } else {
+                        Log.e("DataManager", "Cant get movie from response.");
                     }
-                    else{
-                        Log.d("Error", "Cant get movie from response.");
-                    }
-                }
-                else
-                {
-                    Log.d("Error", response.message());
+                } else {
+                    Log.e("DataManager", response.message());
                     movieList = null;
                 }
             }
 
             @Override
             public void onFailure(Call<MoviesResponse> call, Throwable t) {
-                Log.d("onFailure", t.toString());
+                Log.e("DataManager", t.toString());
                 movieList = null;
             }
         });
@@ -90,31 +80,26 @@ public class DataManager {
         call.enqueue(new Callback<MoviesResponse>() {
             @Override
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                if(response.code() == 200)
-                {
+                if (response.code() == 200) {
                     movieList = response.body().getResults();
                     for (Movie m : movieList) {
                         Log.d("TEST", m.getTitle());
                     }
 
-                    if(movieList != null && movieList.size() > 0)
-                    {
-                        mPresenter.notifyUpcomingMovies(movieList);
+                    if (movieList != null && movieList.size() > 0) {
+                        mPresenter.notifyDataChange(movieList);
+                    } else {
+                        Log.e("DataManager", "Cant get movie from response.");
                     }
-                    else{
-                        Log.d("Error", "Cant get movie from response.");
-                    }
-                }
-                else
-                {
-                    Log.d("Error", response.message());
+                } else {
+                    Log.e("DataManager", response.message());
                     movieList = null;
                 }
             }
 
             @Override
             public void onFailure(Call<MoviesResponse> call, Throwable t) {
-                Log.d("onFailure", t.toString());
+                Log.e("DataManager", t.toString());
                 movieList = null;
             }
         });
@@ -123,28 +108,31 @@ public class DataManager {
     public void fetchTvShowsOnTheAirData() {
         mMovieAPI = new MovieAPI();
 
-        Call<TvShowResponse> call = mMovieAPI.getService().getShowsOnTheAir(API_KEY);
+        Call<TvShowResponse> call = mMovieAPI.getService().getShowsOnTheAir(API_KEY, pageNumberTvShow);
         call.enqueue(new Callback<TvShowResponse>() {
             @Override
             public void onResponse(Call<TvShowResponse> call, Response<TvShowResponse> response) {
-                if(response.code() == 200)
-                {
-                    tvShowList = response.body().getResults();
+                if (response.code() == 200) {
+
+                    List<TvShow> tvShowListResponse = response.body().getResults();
+
                     for (TvShow tvShow : tvShowList) {
                         Log.d("TEST", tvShow.getName());
                     }
 
-                    if(tvShowList != null && tvShowList.size() > 0)
-                    {
-                        mPresenter.notifyTvShowsOnTheAir(tvShowList);
+                    tvShowList.addAll(tvShowListResponse);
+
+                    if (tvShowList != null && tvShowList.size() > 0) {
+                        mPresenter.notifyDataChange(tvShowList);
+
+                        if (pageNumberTvShow < response.body().getTotalPages()) {
+                            pageNumberTvShow++;
+                        }
+                    } else {
+                        Log.e("DataManager", "Cant get tv shows from response.");
                     }
-                    else{
-                        Log.d("Error", "Cant get movie from response.");
-                    }
-                }
-                else
-                {
-                    Log.d("Error", response.message());
+                } else {
+                    Log.e("DataManager", response.message());
                     tvShowList = null;
                 }
             }

@@ -1,4 +1,4 @@
-package com.example.dusan.topmovies.view;
+package com.example.dusan.topmovies.view.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.example.dusan.topmovies.R;
 import com.example.dusan.topmovies.model.TvShow;
+import com.example.dusan.topmovies.view.holders.TvShowViewHolder;
+import com.example.dusan.topmovies.view.TvShowsListFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -17,14 +19,14 @@ public class TvShowViewAdapter extends RecyclerView.Adapter<TvShowViewHolder> {
 
 
     private List<TvShow> mTvShowList;
-    private ListFragment mListFragment;
+    private TvShowsListFragment mTvShowListFragment;
 
     public TvShowViewAdapter(List<TvShow> tvShowList) {
         this.mTvShowList = tvShowList;
     }
 
-    public void setFragment(ListFragment fragment) {
-        this.mListFragment = fragment;
+    public void setFragment(TvShowsListFragment fragment) {
+        this.mTvShowListFragment = fragment;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class TvShowViewAdapter extends RecyclerView.Adapter<TvShowViewHolder> {
         holder.mName.setText(tvShow.getName());
         holder.mRelaseDate.setText(tvShow.getFirstAirDate());
         holder.mRatingScore.setText(String.valueOf(tvShow.getAverageRating()));
-        Picasso.with(mListFragment.getActivity())
+        Picasso.with(mTvShowListFragment.getActivity())
                 .load("https://image.tmdb.org/t/p/w92" + tvShow.getPosterPath()).into(holder.mPoster);
 
         // implementation later
@@ -49,9 +51,21 @@ public class TvShowViewAdapter extends RecyclerView.Adapter<TvShowViewHolder> {
 //            @Override
 //            public void onClick(View v) {
 //                Log.d("--->", "onClick " + String.valueOf(position));
-//                mListFragment.onItemClick(position);
+//                mMovieListFragment.onItemClick(position);
 //            }
 //        });
+    }
+
+    public void dataSetChange(List list) {
+        if(list != null)
+        {
+            mTvShowList = list;
+            notifyDataSetChanged();
+        }
+        else
+        {
+            Log.e("TvShowViewAdapter", "dataSetChange error list is null");
+        }
     }
 
     @Override
