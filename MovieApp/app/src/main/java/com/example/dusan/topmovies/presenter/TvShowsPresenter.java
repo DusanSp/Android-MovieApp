@@ -7,7 +7,7 @@ import com.example.dusan.topmovies.view.IListView;
 import java.util.List;
 
 
-public class TvShowsPresenter implements IPresenter {
+public class TvShowsPresenter implements IPresenter<IListView> {
 
   private DataManager mDataManager;
   private IListView mListView;
