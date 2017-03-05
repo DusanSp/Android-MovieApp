@@ -18,35 +18,35 @@ import java.util.List;
 public class TvShowViewAdapter extends RecyclerView.Adapter<TvShowViewHolder> {
 
 
-    private List<TvShow> mTvShowList;
-    private TvShowsListFragment mTvShowListFragment;
+  private List<TvShow> mTvShowList;
+  private TvShowsListFragment mTvShowListFragment;
 
-    public TvShowViewAdapter(List<TvShow> tvShowList) {
-        this.mTvShowList = tvShowList;
-    }
+  public TvShowViewAdapter(List<TvShow> tvShowList) {
+    this.mTvShowList = tvShowList;
+  }
 
-    public void setFragment(TvShowsListFragment fragment) {
-        this.mTvShowListFragment = fragment;
-    }
+  public void setFragment(TvShowsListFragment fragment) {
+    this.mTvShowListFragment = fragment;
+  }
 
-    @Override
-    public TvShowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_row, parent, false);
+  @Override
+  public TvShowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View itemView = LayoutInflater.from(parent.getContext())
+        .inflate(R.layout.list_row, parent, false);
 
-        return new TvShowViewHolder(itemView);
-    }
+    return new TvShowViewHolder(itemView);
+  }
 
-    @Override
-    public void onBindViewHolder(TvShowViewHolder holder, final int position) {
-        TvShow tvShow = mTvShowList.get(position);
-        holder.mName.setText(tvShow.getName());
-        holder.mRelaseDate.setText(tvShow.getFirstAirDate());
-        holder.mRatingScore.setText(String.valueOf(tvShow.getAverageRating()));
-        Picasso.with(mTvShowListFragment.getActivity())
-                .load("https://image.tmdb.org/t/p/w92" + tvShow.getPosterPath()).into(holder.mPoster);
+  @Override
+  public void onBindViewHolder(TvShowViewHolder holder, final int position) {
+    TvShow tvShow = mTvShowList.get(position);
+    holder.mName.setText(tvShow.getName());
+    holder.mRelaseDate.setText(tvShow.getFirstAirDate());
+    holder.mRatingScore.setText(String.valueOf(tvShow.getAverageRating()));
+    Picasso.with(mTvShowListFragment.getActivity())
+        .load("https://image.tmdb.org/t/p/w92" + tvShow.getPosterPath()).into(holder.mPoster);
 
-        // implementation later
+    // implementation later
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -54,22 +54,19 @@ public class TvShowViewAdapter extends RecyclerView.Adapter<TvShowViewHolder> {
 //                mMovieListFragment.onItemClick(position);
 //            }
 //        });
-    }
+  }
 
-    public void dataSetChange(List list) {
-        if(list != null)
-        {
-            mTvShowList = list;
-            notifyDataSetChanged();
-        }
-        else
-        {
-            Log.e("TvShowViewAdapter", "dataSetChange error list is null");
-        }
+  public void dataSetChange(List list) {
+    if (list != null) {
+      mTvShowList = list;
+      notifyDataSetChanged();
+    } else {
+      Log.e("TvShowViewAdapter", "dataSetChange error list is null");
     }
+  }
 
-    @Override
-    public int getItemCount() {
-        return mTvShowList.size();
-    }
+  @Override
+  public int getItemCount() {
+    return mTvShowList.size();
+  }
 }

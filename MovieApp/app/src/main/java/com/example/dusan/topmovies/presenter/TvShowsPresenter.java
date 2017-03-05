@@ -9,27 +9,37 @@ import java.util.List;
 
 public class TvShowsPresenter implements IPresenter {
 
-    private DataManager mDataManager;
-    private IListView mListView;
+  private DataManager mDataManager;
+  private IListView mListView;
 
 
-    public TvShowsPresenter(IListView listView) {
-        mDataManager = new DataManager(this);
-        mListView = listView;
-    }
+  public TvShowsPresenter(IListView listView) {
+    mDataManager = new DataManager(this);
+    mListView = listView;
+  }
 
-    @Override
-    public void loadData() {
-        mDataManager.fetchTvShowsOnTheAirData();
-    }
+  @Override
+  public void loadData() {
+    mDataManager.fetchTvShowsOnTheAirData();
+  }
 
-    @Override
-    public void notifyDataChange(List list) {
-        mListView.showData(list);
-    }
+  @Override
+  public void notifyDataChange(List list) {
+    mListView.showData(list);
+  }
 
-    @Override
-    public TvShow getDetailData(int position) {
-        return mDataManager.getTvShow(position);
-    }
+  @Override
+  public TvShow getDetailData(int position) {
+    return mDataManager.getTvShow(position);
+  }
+
+  @Override
+  public void showLoading() {
+    mListView.showLoadingIndicator();
+  }
+
+  @Override
+  public void hideLoading() {
+    mListView.hideLoadingIndicator();
+  }
 }

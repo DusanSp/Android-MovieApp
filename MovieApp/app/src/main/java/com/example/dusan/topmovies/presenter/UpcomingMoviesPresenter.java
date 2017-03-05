@@ -9,28 +9,37 @@ import java.util.List;
 
 public class UpcomingMoviesPresenter implements IPresenter {
 
-    private DataManager mDataManager;
-    private IListView mListView;
+  private DataManager mDataManager;
+  private IListView mListView;
 
 
-    public UpcomingMoviesPresenter(IListView listView)
-    {
-        this.mDataManager = new DataManager(this);
-        this.mListView = listView;
-    }
+  public UpcomingMoviesPresenter(IListView listView) {
+    this.mDataManager = new DataManager(this);
+    this.mListView = listView;
+  }
 
-    @Override
-    public void loadData() {
-        mDataManager.fetchUpcomingMoviesData();
-    }
+  @Override
+  public void loadData() {
+    mDataManager.fetchUpcomingMoviesData();
+  }
 
-    @Override
-    public void notifyDataChange(List movieList) {
-        mListView.showData(movieList);
-    }
+  @Override
+  public void notifyDataChange(List movieList) {
+    mListView.showData(movieList);
+  }
 
-    @Override
-    public Movie getDetailData(int position) {
-        return mDataManager.getMovie(position);
-    }
+  @Override
+  public Movie getDetailData(int position) {
+    return mDataManager.getMovie(position);
+  }
+
+  @Override
+  public void showLoading() {
+    mListView.showLoadingIndicator();
+  }
+
+  @Override
+  public void hideLoading() {
+    mListView.hideLoadingIndicator();
+  }
 }

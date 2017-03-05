@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:background="@color/detail_background">
+
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="15dp"
     android:orientation="vertical">
+    <Button
+      android:id="@+id/btn_topratedmovies"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:text="Top Rated Movies" />
 
     <Button
-        android:id="@+id/btn_topratedmovies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Top Rated Movies" />
+      android:id="@+id/btn_upcamingmovies"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:text="Upcoming movies" />
 
     <Button
-        android:id="@+id/btn_upcamingmovies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Upcoming movies" />
+      android:id="@+id/btn_tvshowsontheair"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:text="Tv Shows on the air" />
+  </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_tvshowsontheair"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Tv Shows on the air" />
 
 </LinearLayout>

@@ -8,4 +8,6 @@ public interface IPresenter {
     void loadData();
     void notifyDataChange(List list);
     Object getDetailData(int position);
+    void showLoading();
+    void hideLoading();
 }
