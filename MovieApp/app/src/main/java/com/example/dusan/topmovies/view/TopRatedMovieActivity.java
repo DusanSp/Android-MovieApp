@@ -31,4 +31,10 @@ public class TopRatedMovieActivity extends FragmentActivity {
     mTopMoviesPresenter = new TopMoviesPresenter(mMovieListFragment);
     mMovieListFragment.initPresenter(mTopMoviesPresenter);
   }
+
+  @Override
+  public void onDestroy() {
+    mTopMoviesPresenter.disposeResource();
+    super.onDestroy();
+  }
 }

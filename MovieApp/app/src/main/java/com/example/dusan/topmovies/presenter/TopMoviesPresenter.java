@@ -2,17 +2,12 @@ package com.example.dusan.topmovies.presenter;
 
 import android.util.Log;
 import com.example.dusan.topmovies.model.DataManager;
-import com.example.dusan.topmovies.model.Movie;
 import com.example.dusan.topmovies.model.MoviesResponse;
 import com.example.dusan.topmovies.view.IListView;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import java.util.Collections;
-import java.util.List;
 
 
 public class TopMoviesPresenter implements IPresenter<IListView> {
@@ -25,7 +20,7 @@ public class TopMoviesPresenter implements IPresenter<IListView> {
 
 
   public TopMoviesPresenter(IListView listView) {
-    this.mDataManager = new DataManager(this);
+    this.mDataManager = new DataManager();
     this.mListView = listView;
   }
 
@@ -68,30 +63,5 @@ public class TopMoviesPresenter implements IPresenter<IListView> {
     if (!disposable.isDisposed()) {
       disposable.dispose();
     }
-  }
-
-  @Override
-  public void notifyDataChange(List movieList) {
-    if (!movieList.isEmpty()) {
-      mListView.showData(movieList);
-    } else {
-      mListView.showData(Collections.<String>emptyList());
-      Log.d("TopMoviesPresenter", "Movie list is empty");
-    }
-  }
-
-  @Override
-  public Movie getDetailData(int position) {
-    return mDataManager.getMovie(position);
-  }
-
-  @Override
-  public void showLoading() {
-    mListView.showLoadingIndicator();
-  }
-
-  @Override
-  public void hideLoading() {
-    mListView.hideLoadingIndicator();
   }
 }

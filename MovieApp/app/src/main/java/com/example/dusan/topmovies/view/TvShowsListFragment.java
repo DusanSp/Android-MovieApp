@@ -140,6 +140,7 @@ public class TvShowsListFragment extends Fragment implements IListView {
   @Override
   public void onDestroyView() {
     mProgressDialog.dismiss();
+    presenter.disposeResource();
     super.onDestroyView();
   }
 }

@@ -57,12 +57,8 @@ public class TvShowViewAdapter extends RecyclerView.Adapter<TvShowViewHolder> {
   }
 
   public void dataSetChange(List list) {
-    if (list != null) {
-      mTvShowList = list;
+      mTvShowList.addAll(list);
       notifyDataSetChanged();
-    } else {
-      Log.e("TvShowViewAdapter", "dataSetChange error list is null");
-    }
   }
 
   @Override
