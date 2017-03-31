@@ -19,6 +19,7 @@ import com.example.dusan.topmovies.presenter.IPresenter;
 import com.example.dusan.topmovies.view.adapters.MovieViewAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -101,10 +102,10 @@ public class MovieListFragment extends Fragment implements IListView {
   }
 
   @Override
-  public void onItemClick(int position) {
+  public void onItemClick(Movie movie) {
     DetailFragment detailFragment = new DetailFragment();
     detailFragment.initPresenter(presenter);
-    detailFragment.setMovieID(position);
+    detailFragment.setMovie(movie);
     FragmentManager fragmentManager =
         getFragmentManager();
     FragmentTransaction fragmentTransaction =
@@ -116,7 +117,12 @@ public class MovieListFragment extends Fragment implements IListView {
 
   @Override
   public void showData(List list) {
-    mMovieViewAdapter.dataSetChange(list);
+    if (!list.isEmpty()) {
+      mMovieViewAdapter.dataSetChange(list);
+    } else {
+      mMovieViewAdapter.dataSetChange(Collections.<String>emptyList());
+      Log.d("MovieListFragment", "Movie list is empty");
+    }
   }
 
   @Override
@@ -140,6 +146,7 @@ public class MovieListFragment extends Fragment implements IListView {
   @Override
   public void onDestroyView() {
     mProgressDialog.dismiss();
+    presenter.disposeResource();
     super.onDestroyView();
   }
 }

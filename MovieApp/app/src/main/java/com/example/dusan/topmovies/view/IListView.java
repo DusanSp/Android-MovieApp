@@ -1,11 +1,12 @@
 package com.example.dusan.topmovies.view;
 
+import com.example.dusan.topmovies.model.Movie;
 import java.util.List;
 
 
 public interface IListView {
 
-  void onItemClick(int position);
+  void onItemClick(Movie movie);
 
   void showData(List list);
 

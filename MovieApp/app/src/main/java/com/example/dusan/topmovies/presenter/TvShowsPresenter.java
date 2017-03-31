@@ -42,4 +42,9 @@ public class TvShowsPresenter implements IPresenter<IListView> {
   public void hideLoading() {
     mListView.hideLoadingIndicator();
   }
+
+  @Override
+  public void disposeResource() {
+
+  }
 }

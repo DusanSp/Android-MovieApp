@@ -13,11 +13,12 @@ import com.example.dusan.topmovies.view.MovieListFragment;
 import com.example.dusan.topmovies.view.holders.MovieViewHolder;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
-  private List<Movie> mMovieList;
+  private List<Movie> mMovieList = new ArrayList<>();
   private MovieListFragment mMovieListFragment;
 
 
@@ -51,7 +52,7 @@ public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewHolder> {
       @Override
       public void onClick(View v) {
         Log.d("--->", "onClick " + String.valueOf(position));
-        mMovieListFragment.onItemClick(position);
+        mMovieListFragment.onItemClick(mMovieList.get(position));
       }
     });
   }
@@ -62,11 +63,7 @@ public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewHolder> {
   }
 
   public void dataSetChange(List list) {
-    if (list != null) {
-      mMovieList = list;
-      notifyDataSetChanged();
-    } else {
-      Log.e("MovieViewAdapter", "dataSetChange error list is null");
-    }
+    mMovieList.addAll(list);
+    notifyDataSetChanged();
   }
 }

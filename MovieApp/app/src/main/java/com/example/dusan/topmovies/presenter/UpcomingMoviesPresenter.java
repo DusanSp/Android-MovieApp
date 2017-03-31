@@ -42,4 +42,9 @@ public class UpcomingMoviesPresenter implements IPresenter<IListView> {
   public void hideLoading() {
     mListView.hideLoadingIndicator();
   }
+
+  @Override
+  public void disposeResource() {
+
+  }
 }

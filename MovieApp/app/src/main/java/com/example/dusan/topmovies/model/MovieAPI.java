@@ -2,26 +2,26 @@ package com.example.dusan.topmovies.model;
 
 
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MovieAPI {
 
-    private APICommunication apiCommunication;
+  private APICommunication apiCommunication;
 
-    private final String BASE_URL = "http://api.themoviedb.org/3/";
+  private final String BASE_URL = "http://api.themoviedb.org/3/";
 
-    public MovieAPI()
-    {
-        final Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+  public MovieAPI() {
+    final Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .build();
 
-        apiCommunication = retrofit.create(APICommunication.class);
-    }
+    apiCommunication = retrofit.create(APICommunication.class);
+  }
 
-    public APICommunication getService()
-    {
-        return apiCommunication;
-    }
+  public APICommunication getService() {
+    return apiCommunication;
+  }
 }

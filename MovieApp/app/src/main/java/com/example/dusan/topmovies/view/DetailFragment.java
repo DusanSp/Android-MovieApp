@@ -21,7 +21,6 @@ import butterknife.ButterKnife;
 public class DetailFragment extends Fragment {
 
     private IPresenter presenter;
-    private int movieID;
     private Movie mMovie;
 
     @BindView(R.id.title_detail)
@@ -59,8 +58,6 @@ public class DetailFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mMovie = (Movie) presenter.getDetailData(movieID);
-
         title.setText(mMovie.getTitle());
         originalTitle.setText(mMovie.getOriginalTitle());
         score.setText(String.valueOf(mMovie.getAverageRating()));
@@ -80,8 +77,8 @@ public class DetailFragment extends Fragment {
 
     }
 
-    public void setMovieID(int id)
+    public void setMovie(Movie movie)
     {
-        this.movieID = id;
+        mMovie = movie;
     }
 }

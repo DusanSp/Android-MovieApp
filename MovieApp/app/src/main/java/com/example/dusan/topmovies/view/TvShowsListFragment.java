@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import com.example.dusan.topmovies.R;
+import com.example.dusan.topmovies.model.Movie;
 import com.example.dusan.topmovies.model.TvShow;
 import com.example.dusan.topmovies.presenter.IPresenter;
 import com.example.dusan.topmovies.view.adapters.TvShowViewAdapter;
@@ -100,10 +101,10 @@ public class TvShowsListFragment extends Fragment implements IListView {
   }
 
   @Override
-  public void onItemClick(int position) {
+  public void onItemClick(Movie movie) {
     DetailFragment detailFragment = new DetailFragment();
     detailFragment.initPresenter(presenter);
-    detailFragment.setMovieID(position);
+    detailFragment.setMovie(movie);
     FragmentManager fragmentManager =
         getFragmentManager();
     FragmentTransaction fragmentTransaction =

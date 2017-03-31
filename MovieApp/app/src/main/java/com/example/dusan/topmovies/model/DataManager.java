@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.dusan.topmovies.presenter.IPresenter;
 
+import io.reactivex.Observable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,46 +37,51 @@ public class DataManager {
     return this.tvShowList.get(index);
   }
 
-  public void fetchTopRatedMoviesData() {
-
-    mPresenter.showLoading();
+  public Observable<MoviesResponse> fetchTopRatedMoviesData(int pageNumber) {
     mMovieAPI = new MovieAPI();
-
-    Call<MoviesResponse> call = mMovieAPI.getService().getTopRatedMovies(API_KEY, pageNumber);
-    call.enqueue(new Callback<MoviesResponse>() {
-      @Override
-      public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-        if (response.code() == 200) {
-          List<Movie> movieListFromResponse = response.body().getResults();
-          for (Movie m : movieListFromResponse) {
-            Log.d("TEST", m.getTitle());
-          }
-
-          movieList.addAll(movieListFromResponse);
-
-          if (movieList != null && movieList.size() > 0) {
-            mPresenter.notifyDataChange(movieList);
-            mPresenter.hideLoading();
-
-            if (pageNumber < response.body().getTotalPages()) {
-              pageNumber++;
-            }
-          } else {
-            Log.e("DataManager", "Cant get movie from response.");
-          }
-        } else {
-          Log.e("DataManager", response.message());
-          movieList = null;
-        }
-      }
-
-      @Override
-      public void onFailure(Call<MoviesResponse> call, Throwable t) {
-        Log.e("DataManager", t.toString());
-        movieList = null;
-      }
-    });
+    return mMovieAPI.getService().getTopRatedMovies(API_KEY, pageNumber);
   }
+
+//  public void fetchTopRatedMoviesData() {
+//
+//    mPresenter.showLoading();
+//    mMovieAPI = new MovieAPI();
+//
+//    Call<MoviesResponse> call = mMovieAPI.getService().getTopRatedMovies(API_KEY, pageNumber);
+//    call.enqueue(new Callback<MoviesResponse>() {
+//      @Override
+//      public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+//        if (response.code() == 200) {
+//          List<Movie> movieListFromResponse = response.body().getResults();
+//          for (Movie m : movieListFromResponse) {
+//            Log.d("TEST", m.getTitle());
+//          }
+//
+//          movieList.addAll(movieListFromResponse);
+//
+//          if (movieList != null && movieList.size() > 0) {
+//            mPresenter.notifyDataChange(movieList);
+//            mPresenter.hideLoading();
+//
+//            if (pageNumber < response.body().getTotalPages()) {
+//              pageNumber++;
+//            }
+//          } else {
+//            Log.e("DataManager", "Cant get movie from response.");
+//          }
+//        } else {
+//          Log.e("DataManager", response.message());
+//          movieList = null;
+//        }
+//      }
+//
+//      @Override
+//      public void onFailure(Call<MoviesResponse> call, Throwable t) {
+//        Log.e("DataManager", t.toString());
+//        movieList = null;
+//      }
+//    });
+//  }
 
   public void fetchUpcomingMoviesData() {
     mPresenter.showLoading();
