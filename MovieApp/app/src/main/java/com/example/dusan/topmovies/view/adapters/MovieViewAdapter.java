@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
-  private List<Movie> mMovieList = new ArrayList<>();
+  private List<Movie> mMovieList;
   private MovieListFragment mMovieListFragment;
 
 

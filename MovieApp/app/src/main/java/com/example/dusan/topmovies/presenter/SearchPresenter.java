@@ -10,23 +10,21 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class TopMoviesPresenter implements IPresenter {
+public class SearchPresenter implements IPresenterSearch {
 
-  private DataManager mDataManager;
   private IListView mListView;
+  private DataManager dataManager;
   private Observable<MoviesResponse> responseObservable;
   private DisposableObserver<MoviesResponse> disposable;
   private int page = 1;
 
-
-  public TopMoviesPresenter(IListView listView) {
-    this.mDataManager = new DataManager();
+  public SearchPresenter(IListView listView) {
+    dataManager = new DataManager();
     this.mListView = listView;
   }
 
   @Override
-  public void loadData() {
-
+  public void loadData(String query) {
     mListView.showLoadingIndicator();
 
     disposable = new DisposableObserver<MoviesResponse>() {
@@ -41,25 +39,25 @@ public class TopMoviesPresenter implements IPresenter {
       @Override
       public void onError(Throwable e) {
         mListView.hideLoadingIndicator();
-        Log.d("TopMoviesPresenter", "onError: " + e);
+        Log.d("SearchPresenter", "onError: " + e);
       }
 
       @Override
       public void onComplete() {
         mListView.hideLoadingIndicator();
-        Log.d("TopMoviesPresenter", "onComplete");
+        Log.d("SearchPresenter", "onComplete");
       }
     };
 
-    responseObservable = mDataManager.fetchTopRatedMoviesData(page);
+    responseObservable = dataManager.searchMovie(query, page);
     responseObservable
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(disposable);
   }
 
-  public void disposeResource()
-  {
+  @Override
+  public void disposeResource() {
     if (!disposable.isDisposed()) {
       disposable.dispose();
     }

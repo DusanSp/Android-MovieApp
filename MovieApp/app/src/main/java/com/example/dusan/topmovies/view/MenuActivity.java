@@ -43,4 +43,12 @@ public class MenuActivity extends Activity {
                 TvShowsOnTheAirActivity.class);
         startActivity(upcomingMoviesIntent);
     }
+
+    @OnClick(R.id.btn_search_activity)
+    public void searchActivity(View view)
+    {
+        Intent searchIntent = new Intent(MenuActivity.this,
+            SearchActivity.class);
+        startActivity(searchIntent);
+    }
 }

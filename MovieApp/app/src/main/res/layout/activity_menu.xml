@@ -30,6 +30,13 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:text="Tv Shows on the air" />
+
+    <Button
+      android:id="@+id/btn_search_activity"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:text="Search" />
   </LinearLayout>
 
 

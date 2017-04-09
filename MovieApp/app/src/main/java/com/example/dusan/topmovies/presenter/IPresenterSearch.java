@@ -1,9 +1,9 @@
 package com.example.dusan.topmovies.presenter;
 
 
-public interface IPresenter {
+public interface IPresenterSearch {
 
-  void loadData();
+  void loadData(String query);
 
   void disposeResource();
 }

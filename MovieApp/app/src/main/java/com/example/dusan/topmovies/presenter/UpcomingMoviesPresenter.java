@@ -10,7 +10,7 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class UpcomingMoviesPresenter implements IPresenter<IListView> {
+public class UpcomingMoviesPresenter implements IPresenter {
 
   private Observable<MoviesResponse> responseObservable;
   private DisposableObserver<MoviesResponse> disposable;

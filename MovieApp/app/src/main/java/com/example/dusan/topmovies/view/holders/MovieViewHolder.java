@@ -10,10 +10,10 @@ import com.example.dusan.topmovies.R;
 
 public class MovieViewHolder extends RecyclerView.ViewHolder{
 
-    public TextView mTitle;
-    public TextView mRelaseDate;
-    public TextView mRatingScore;
-    public ImageView mPoster;
+    public final TextView mTitle;
+    public final TextView mRelaseDate;
+    public final TextView mRatingScore;
+    public final ImageView mPoster;
 
 
     public MovieViewHolder(View itemView) {

@@ -99,6 +99,11 @@ public class DataManager {
   public Observable<TvShowResponse> fetchTvShowsOnTheAirData(int page) {
     return mMovieAPI.getService().getShowsOnTheAir(API_KEY, page);
   }
+
+  public Observable<MoviesResponse> searchMovie(String query, int page)
+  {
+    return mMovieAPI.getService().searchMovie(API_KEY, query, page);
+  }
 //  public void fetchTvShowsOnTheAirData() {
 //    mPresenter.showLoading();
 //    mMovieAPI = new MovieAPI();

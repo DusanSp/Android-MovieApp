@@ -18,4 +18,8 @@ public interface APICommunication {
   @GET("tv/on_the_air")
   Observable<TvShowResponse> getShowsOnTheAir(@Query("api_key") String apiKey,
       @Query("page") int pageNumber);
+
+  @GET("search/movie")
+  Observable<MoviesResponse> searchMovie(@Query("api_key") String apiKey,
+      @Query("query") String query, @Query("page") int pageNumber);
 }
