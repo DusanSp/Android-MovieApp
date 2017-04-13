@@ -5,7 +5,8 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +65,27 @@ public class SearchFragment extends Fragment implements IListView {
   @Override
   public void onItemClick(Movie movie) {
 
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    editText.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        presenter.loadData(s.toString());
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+
+      }
+    });
   }
 
   @Override

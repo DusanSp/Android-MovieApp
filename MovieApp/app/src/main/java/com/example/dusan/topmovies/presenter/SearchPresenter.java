@@ -6,8 +6,10 @@ import com.example.dusan.topmovies.model.MoviesResponse;
 import com.example.dusan.topmovies.view.IListView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import java.util.concurrent.TimeUnit;
 
 
 public class SearchPresenter implements IPresenterSearch {
@@ -24,7 +26,7 @@ public class SearchPresenter implements IPresenterSearch {
   }
 
   @Override
-  public void loadData(String query) {
+  public void loadData(final String query) {
     mListView.showLoadingIndicator();
 
     disposable = new DisposableObserver<MoviesResponse>() {
@@ -53,6 +55,13 @@ public class SearchPresenter implements IPresenterSearch {
     responseObservable
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
+        .filter(new Predicate<MoviesResponse>() {
+          @Override
+          public boolean test(MoviesResponse moviesResponse) throws Exception {
+            return query.length() >= 2;
+          }
+        })
+        .debounce(3000, TimeUnit.MILLISECONDS)
         .subscribe(disposable);
   }
 
