@@ -1,26 +1,17 @@
 package com.example.dusan.topmovies.presenter;
 
-import android.util.Log;
-import com.example.dusan.topmovies.model.DataManager;
 import com.example.dusan.topmovies.model.MoviesResponse;
 import com.example.dusan.topmovies.view.IListView;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import com.example.dusan.topmovies.view.TopMovieInteractor;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
-
 
 public class TopMoviesPresenter implements IPresenter {
 
-  private DataManager mDataManager;
+  private TopMovieInteractor mInteractor;
   private IListView mListView;
-  private Observable<MoviesResponse> responseObservable;
-  private DisposableObserver<MoviesResponse> disposable;
   private int page = 1;
 
-
   public TopMoviesPresenter(IListView listView) {
-    this.mDataManager = new DataManager();
     this.mListView = listView;
   }
 
@@ -28,40 +19,32 @@ public class TopMoviesPresenter implements IPresenter {
   public void loadData() {
 
     mListView.showLoadingIndicator();
-
-    disposable = new DisposableObserver<MoviesResponse>() {
-      @Override
-      public void onNext(MoviesResponse value) {
-        mListView.showData(value.getResults());
-        if (value.getTotalPages() != page) {
-          page++;
-        }
-      }
-
-      @Override
-      public void onError(Throwable e) {
-        mListView.hideLoadingIndicator();
-        Log.d("TopMoviesPresenter", "onError: " + e);
-      }
-
-      @Override
-      public void onComplete() {
-        mListView.hideLoadingIndicator();
-        Log.d("TopMoviesPresenter", "onComplete");
-      }
-    };
-
-    responseObservable = mDataManager.fetchTopRatedMoviesData(page);
-    responseObservable
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(disposable);
+    mInteractor = new TopMovieInteractor();
+    mInteractor.execute(new TopMoviesObserver(), page);
   }
 
-  public void disposeResource()
-  {
-    if (!disposable.isDisposed()) {
-      disposable.dispose();
+  @Override
+  public void disposeResource() {
+    if(mInteractor != null) {
+      mInteractor.dispose();
+    }
+  }
+
+  private final class TopMoviesObserver extends DisposableObserver<MoviesResponse> {
+
+    @Override
+    public void onNext(MoviesResponse value) {
+      TopMoviesPresenter.this.mListView.showData(value.getResults());
+    }
+
+    @Override
+    public void onError(Throwable e) {
+      TopMoviesPresenter.this.mListView.hideLoadingIndicator();
+    }
+
+    @Override
+    public void onComplete() {
+      TopMoviesPresenter.this.mListView.hideLoadingIndicator();
     }
   }
 }

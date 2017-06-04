@@ -50,17 +50,15 @@ public class UpcomingMoviesPresenter implements IPresenter {
       }
     };
 
-    responseObservable = mDataManager.fetchUpcomingMoviesData();
-    responseObservable
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(disposable);
+//    responseObservable = mDataManager.fetchUpcomingMoviesData();
+//    responseObservable
+//        .subscribeOn(Schedulers.io())
+//        .observeOn(AndroidSchedulers.mainThread())
+//        .subscribe(disposable);
   }
 
   @Override
   public void disposeResource() {
-    if (!disposable.isDisposed()) {
-      disposable.dispose();
-    }
+
   }
 }

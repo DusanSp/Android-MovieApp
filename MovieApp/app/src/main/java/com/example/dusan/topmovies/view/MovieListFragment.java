@@ -18,6 +18,7 @@ import com.example.dusan.topmovies.model.Movie;
 import com.example.dusan.topmovies.presenter.IPresenter;
 import com.example.dusan.topmovies.view.adapters.MovieViewAdapter;
 
+import com.example.dusan.topmovies.view.utils.DialogFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,11 +26,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 public class MovieListFragment extends Fragment implements IListView {
 
-  @BindView(R.id.recycler_view)
-  RecyclerView mRecyclerView;
+  @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
   private MovieViewAdapter mMovieViewAdapter;
   private IPresenter presenter;
@@ -41,13 +40,11 @@ public class MovieListFragment extends Fragment implements IListView {
   private int visibleThreshold = 5;
   private ProgressDialog mProgressDialog;
 
-
   public void initPresenter(IPresenter presenter) {
     this.presenter = presenter;
   }
 
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.list_fragment, container, false);
     ButterKnife.bind(this, view);
@@ -66,16 +63,14 @@ public class MovieListFragment extends Fragment implements IListView {
 
   private void implementScrollListener() {
     mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-      @Override
-      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+      @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
         if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
           userScrolled = true;
         }
       }
 
-      @Override
-      public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+      @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
 
         totalItemCount = mLayoutManager.getItemCount();
@@ -89,34 +84,29 @@ public class MovieListFragment extends Fragment implements IListView {
     });
   }
 
-  @Override
-  public void onActivityCreated(Bundle savedInstanceState) {
+  @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
     presenter.loadData();
   }
 
-  @Override
-  public void onStart() {
+  @Override public void onStart() {
     super.onStart();
   }
 
-  @Override
-  public void onItemClick(Movie movie) {
-    DetailFragment detailFragment = new DetailFragment();
+  @Override public void onItemClick(Movie movie) {
+    DetailFragment detailFragment = DetailFragment.newInstance();
     detailFragment.initPresenter(presenter);
     detailFragment.setMovie(movie);
-    FragmentManager fragmentManager =
-        getFragmentManager();
-    FragmentTransaction fragmentTransaction =
-        fragmentManager.beginTransaction();
+
+    FragmentManager fragmentManager = getFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     fragmentTransaction.replace(R.id.fragment_holder, detailFragment);
     fragmentTransaction.addToBackStack(null);
     fragmentTransaction.commit();
   }
 
-  @Override
-  public void showData(List list) {
+  @Override public void showData(List list) {
     if (!list.isEmpty()) {
       mMovieViewAdapter.dataSetChange(list);
     } else {
@@ -125,26 +115,19 @@ public class MovieListFragment extends Fragment implements IListView {
     }
   }
 
-  @Override
-  public void showLoadingIndicator() {
-    if(mProgressDialog == null)
-    {
-      mProgressDialog = new ProgressDialog(getActivity());
-      mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-      mProgressDialog.setMessage("It's loading...");
-      mProgressDialog.setTitle("Loading");
+  @Override public void showLoadingIndicator() {
+    if (mProgressDialog == null) {
+      mProgressDialog = DialogFactory.createSimpleProgressDialog(getActivity(), "Loading");
     }
 
     mProgressDialog.show();
   }
 
-  @Override
-  public void hideLoadingIndicator() {
+  @Override public void hideLoadingIndicator() {
     mProgressDialog.hide();
   }
 
-  @Override
-  public void onDestroyView() {
+  @Override public void onDestroyView() {
     mProgressDialog.dismiss();
     presenter.disposeResource();
     super.onDestroyView();

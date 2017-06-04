@@ -49,18 +49,10 @@ public class TvShowsPresenter implements IPresenter {
         Log.d("TopMoviesPresenter", "onComplete");
       }
     };
-
-    responseObservable = mDataManager.fetchTvShowsOnTheAirData(page);
-    responseObservable
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(disposable);
   }
 
   @Override
   public void disposeResource() {
-    if (!disposable.isDisposed()) {
-      disposable.dispose();
-    }
+
   }
 }

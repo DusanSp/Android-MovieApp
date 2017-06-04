@@ -7,21 +7,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MovieAPI {
 
-  private APICommunication apiCommunication;
 
-  private final String BASE_URL = "http://api.themoviedb.org/3/";
+  private static final String BASE_URL = "http://api.themoviedb.org/3/";
 
-  public MovieAPI() {
+  public static APICommunication MovieAPI() {
     final Retrofit retrofit = new Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build();
 
-    apiCommunication = retrofit.create(APICommunication.class);
-  }
-
-  public APICommunication getService() {
-    return apiCommunication;
+    return retrofit.create(APICommunication.class);
   }
 }

@@ -51,18 +51,18 @@ public class SearchPresenter implements IPresenterSearch {
       }
     };
 
-    responseObservable = dataManager.searchMovie(query, page);
-    responseObservable
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .filter(new Predicate<MoviesResponse>() {
-          @Override
-          public boolean test(MoviesResponse moviesResponse) throws Exception {
-            return query.length() >= 2;
-          }
-        })
-        .debounce(3000, TimeUnit.MILLISECONDS)
-        .subscribe(disposable);
+//    responseObservable = dataManager.searchMovie(query, page);
+//    responseObservable
+//        .subscribeOn(Schedulers.io())
+//        .observeOn(AndroidSchedulers.mainThread())
+//        .filter(new Predicate<MoviesResponse>() {
+//          @Override
+//          public boolean test(MoviesResponse moviesResponse) throws Exception {
+//            return query.length() >= 2;
+//          }
+//        })
+//        .debounce(3000, TimeUnit.MILLISECONDS)
+//        .subscribe(disposable);
   }
 
   @Override

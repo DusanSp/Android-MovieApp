@@ -20,65 +20,68 @@ import butterknife.ButterKnife;
 
 public class DetailFragment extends Fragment {
 
-    private IPresenter presenter;
-    private Movie mMovie;
+  private IPresenter presenter;
+  private Movie mMovie;
 
-    @BindView(R.id.title_detail)
-    TextView title;
-    @BindView(R.id.original_title_detail)
-    TextView originalTitle;
-    @BindView(R.id.score_detail)
-    TextView score;
-    @BindView(R.id.summary)
-    TextView summary;
-    @BindView(R.id.poster)
-    ImageView poster;
-    @BindView(R.id.vote_count)
-    TextView voteCount;
-    @BindView(R.id.language)
-    TextView language;
-    @BindView(R.id.relase_date_detail)
-    TextView relaseDate;
+  @BindView(R.id.title_detail)
+  TextView title;
+  @BindView(R.id.original_title_detail)
+  TextView originalTitle;
+  @BindView(R.id.score_detail)
+  TextView score;
+  @BindView(R.id.summary)
+  TextView summary;
+  @BindView(R.id.poster)
+  ImageView poster;
+  @BindView(R.id.vote_count)
+  TextView voteCount;
+  @BindView(R.id.language)
+  TextView language;
+  @BindView(R.id.relase_date_detail)
+  TextView relaseDate;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.detail_fragment, container, false);
-        ButterKnife.bind(this, view);
+  public static DetailFragment newInstance() {
+    DetailFragment detailFragment = new DetailFragment();
+    return detailFragment;
+  }
 
-        return view;
-    }
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.detail_fragment, container, false);
+    ButterKnife.bind(this, view);
 
-    public void initPresenter(IPresenter presenter)
-    {
-        this.presenter = presenter;
-    }
+    return view;
+  }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+  public void initPresenter(IPresenter presenter) {
+    this.presenter = presenter;
+  }
 
-        title.setText(mMovie.getTitle());
-        originalTitle.setText(mMovie.getOriginalTitle());
-        score.setText(String.valueOf(mMovie.getAverageRating()));
-        Picasso.with(getActivity().getApplicationContext())
-                .load("https://image.tmdb.org/t/p/w500" + mMovie.getPosterPath()).into(poster);
-        summary.setText(mMovie.getOverview());
-        voteCount.setText(String.valueOf(mMovie.getVoteCount()));
-        language.setText(mMovie.getOriginalLanguage());
-        relaseDate.setText(mMovie.getRelaseDate());
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
 
-        Log.d("DetailFragment", mMovie.getTitle());
-    }
+    title.setText(mMovie.getTitle());
+    originalTitle.setText(mMovie.getOriginalTitle());
+    score.setText(String.valueOf(mMovie.getAverageRating()));
+    Picasso.with(getActivity().getApplicationContext())
+        .load("https://image.tmdb.org/t/p/w500" + mMovie.getPosterPath()).into(poster);
+    summary.setText(mMovie.getOverview());
+    voteCount.setText(String.valueOf(mMovie.getVoteCount()));
+    language.setText(mMovie.getOriginalLanguage());
+    relaseDate.setText(mMovie.getRelaseDate());
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    Log.d("DetailFragment", mMovie.getTitle());
+  }
 
-    }
+  @Override
+  public void onStart() {
+    super.onStart();
 
-    public void setMovie(Movie movie)
-    {
-        mMovie = movie;
-    }
+  }
+
+  public void setMovie(Movie movie) {
+    mMovie = movie;
+  }
 }

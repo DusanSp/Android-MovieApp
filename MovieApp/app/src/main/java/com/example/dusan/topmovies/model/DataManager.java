@@ -2,20 +2,16 @@ package com.example.dusan.topmovies.model;
 
 
 import io.reactivex.Observable;
+import retrofit2.Call;
 
 
 public class DataManager {
 
-  private final String API_KEY = "cea376b36a54214485643698fe4bfd16";
-  private MovieAPI mMovieAPI;
+  private static final String API_KEY = "cea376b36a54214485643698fe4bfd16";
 
 
-  public DataManager() {
-    mMovieAPI = new MovieAPI();
-  }
-
-  public Observable<MoviesResponse> fetchTopRatedMoviesData(int pageNumber) {
-    return mMovieAPI.getService().getTopRatedMovies(API_KEY, pageNumber);
+  public static Observable<MoviesResponse> fetchTopRatedMoviesData( int pageNumber) {
+    return MovieAPI.MovieAPI().getTopRatedMovies(API_KEY, pageNumber);
   }
 
 //  public void fetchTopRatedMoviesData() {
@@ -59,9 +55,10 @@ public class DataManager {
 //    });
 //  }
 
-  public Observable<MoviesResponse> fetchUpcomingMoviesData() {
-    return mMovieAPI.getService().getUpComingMovies(API_KEY);
-  }
+//  public Observable<MoviesResponse> fetchUpcomingMoviesData() {
+//    return mMovieAPI.getService().getUpComingMovies(API_KEY);
+//  }
+
 //  public void fetchUpcomingMoviesData() {
 //    mPresenter.showLoading();
 //    mMovieAPI = new MovieAPI();
@@ -96,14 +93,15 @@ public class DataManager {
 //    });
 //  }
 
-  public Observable<TvShowResponse> fetchTvShowsOnTheAirData(int page) {
-    return mMovieAPI.getService().getShowsOnTheAir(API_KEY, page);
-  }
+//  public Observable<TvShowResponse> fetchTvShowsOnTheAirData(int page) {
+//    return mMovieAPI.getService().getShowsOnTheAir(API_KEY, page);
+//  }
 
-  public Observable<MoviesResponse> searchMovie(String query, int page)
-  {
-    return mMovieAPI.getService().searchMovie(API_KEY, query, page);
-  }
+//  public Observable<MoviesResponse> searchMovie(String query, int page)
+//  {
+//    return mMovieAPI.getService().searchMovie(API_KEY, query, page);
+//  }
+
 //  public void fetchTvShowsOnTheAirData() {
 //    mPresenter.showLoading();
 //    mMovieAPI = new MovieAPI();
